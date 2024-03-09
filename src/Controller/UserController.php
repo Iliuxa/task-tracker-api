@@ -30,6 +30,7 @@ class UserController extends AbstractController
             $userEntity = $entityManager->find(UserEntity::class, $user->getId());
             $user = $userEntity->toUserDto($user);
         }
+
         $user->setRole($entityManager->find(RoleEntity::class, $user->getRole()));
 
         $entityManager->persist($user);
@@ -37,6 +38,19 @@ class UserController extends AbstractController
 
         return $this->json([
             'success' => true
+        ]);
+    }
+
+    #[Route('/user/get', name: 'app_user_get')]
+    public function get(
+        EntityManagerInterface $entityManager,
+    ): Response
+    {
+
+        $user = $entityManager->getRepository(UserEntity::class)->findAll();
+
+        return $this->json([
+            'result' => $user
         ]);
     }
 }

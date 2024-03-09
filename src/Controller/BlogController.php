@@ -13,6 +13,7 @@ class BlogController extends AbstractController
     #[Route('/blog/list/{id}', name: 'app_blog_list')]
     public function list(EntityManagerInterface $entityManager, int $id): Response
     {
+
         $x = $entityManager->getRepository(Test::class)->find($id);
         return new Response(
             json_encode($x->getName())

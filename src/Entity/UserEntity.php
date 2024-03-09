@@ -124,12 +124,12 @@ class UserEntity
         return $this;
     }
 
-    public function getRole(): RoleEntity
+    public function getRole(): ?RoleEntity
     {
         return $this->role;
     }
 
-    public function setRole(RoleEntity $role): UserEntity
+    public function setRole(?RoleEntity $role): UserEntity
     {
         $this->role = $role;
         return $this;

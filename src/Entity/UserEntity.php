@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table('employee')]
-#[ORM\Entity()]
+#[ORM\Entity]
 class UserEntity
 {
     #[ORM\Id]

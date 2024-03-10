@@ -1,8 +1,9 @@
+#### Создание/редактирование пользователя
 ```json
 POST http://{ip}/user/save
 
 {
-    "id": 1,
+    "id": 1, -- null создать, не null редактировать
     "firstName": "tes",
     "LastName": "test",
     "patronymic": "test",
@@ -13,4 +14,17 @@ POST http://{ip}/user/save
         "id": 5
     }
 }
+```
+#### Получить всех или одного пользователя
+```json
+POST http://{ip}/user/get
+
+{
+    "id": 1, -- null получить всё, не null получить одного
+}
+```
+
+#### Получить все роли
+```json
+POST http://{ip}/role/get
 ```

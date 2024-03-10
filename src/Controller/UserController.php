@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Entity\RoleEntity;
 use App\Entity\UserEntity;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,17 +39,26 @@ class UserController extends AbstractController
         $entityManager->flush();
 
         return $this->json([
-            'success' => true
+            'result' => true
         ]);
     }
 
-    #[Route('/user/get', name: 'app_user_get')]
+    #[Route('/user/get', name: 'app_user_get', methods: ['POST'], format: 'json')]
     public function get(
         EntityManagerInterface $entityManager,
+        Request                $request
     ): Response
     {
+        $userId = $request->getPayload()->get('id');
+        $repository = $entityManager->getRepository(UserEntity::class);
 
-        $user = $entityManager->getRepository(UserEntity::class)->findAll();
+        if (isset($userId)) {
+            $user = $repository->find($userId);
+        } else {
+            $user = $repository->findAll();
+        }
+
+        $user ?? throw new \Exception('Не удалось найти пользователя');
 
         return $this->json([
             'result' => $user

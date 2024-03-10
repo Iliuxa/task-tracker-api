@@ -1,7 +1,6 @@
 #### Создание/редактирование пользователя
+```POST http://{ip}/user/save```
 ```json
-POST http://{ip}/user/save
-
 {
     "id": 1, -- null создать, не null редактировать
     "firstName": "tes",
@@ -16,15 +15,19 @@ POST http://{ip}/user/save
 }
 ```
 #### Получить всех или одного пользователя
+```POST http://{ip}/user/get```
 ```json
-POST http://{ip}/user/get
-
 {
     "id": 1, -- null получить всё, не null получить одного
 }
 ```
 
 #### Получить все роли
-```json
+```
 GET http://{ip}/role/get
+```
+
+#### Авторизироваться
+```
+POST http://{ip}/login/authorization
 ```

@@ -26,5 +26,5 @@ POST http://{ip}/user/get
 
 #### Получить все роли
 ```json
-POST http://{ip}/role/get
+GET http://{ip}/role/get
 ```

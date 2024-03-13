@@ -5,15 +5,15 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Table('t_role')]
+#[ORM\Table('t_priority')]
 #[ORM\Entity(readOnly: true)]
-class RoleEntity
+class PriorityEntity
 {
     #[ORM\Id]
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private int $id;
 
-    #[ORM\Column(name: 'role_name', type: Types::STRING)]
+    #[ORM\Column(name: 'priority_name', type: Types::STRING)]
     private string $name;
 
     public function getId(): int
@@ -21,7 +21,7 @@ class RoleEntity
         return $this->id;
     }
 
-    public function setId(int $id): RoleEntity
+    public function setId(int $id): PriorityEntity
     {
         $this->id = $id;
         return $this;
@@ -32,7 +32,7 @@ class RoleEntity
         return $this->name;
     }
 
-    public function setName(string $name): RoleEntity
+    public function setName(string $name): PriorityEntity
     {
         $this->name = $name;
         return $this;

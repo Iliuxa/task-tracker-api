@@ -49,18 +49,11 @@ class UserController extends AbstractController
     ): Response
     {
         $userId = $request->getPayload()->get('id');
-        $repository = $entityManager->getRepository(UserEntity::class);
-
-        if (isset($userId)) {
-            $user = $repository->find($userId);
-        } else {
-            $user = $repository->findAll();
-        }
-
-        $user ?? throw new \Exception('Не удалось найти пользователя');
+        $users = $entityManager->getRepository(UserEntity::class)->getUsers($userId);
+        empty($users) ?? throw new \Exception('Не удалось найти пользователя');
 
         return $this->json([
-            'result' => $user
+            'result' => $users
         ]);
     }
 }

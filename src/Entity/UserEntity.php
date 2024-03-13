@@ -2,18 +2,22 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Table('employee')]
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 class UserEntity
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column(name: 'id', type: Types::INTEGER)]
-    private int $id;
+    #[ORM\GeneratedValue(strategy: 'SEQUENCE')]
+    #[ORM\SequenceGenerator(sequenceName: 'employee_id_seq', initialValue: 1)]
+    #[ORM\Column(name: 'id', type: Types::INTEGER, nullable: true)]
+    private ?int $id;
 
     #[ORM\Column(name: 'first_name', type: Types::STRING)]
     private ?string $firstName = null;
@@ -42,12 +46,23 @@ class UserEntity
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id')]
     private ?RoleEntity $role;
 
-    public function getId(): int
+    #[ORM\JoinTable(name: 'task_employee')]
+    #[ORM\JoinColumn(name: 'employee_id', referencedColumnName: 'ID')]
+    #[ORM\InverseJoinColumn(name: 'task_id', referencedColumnName: 'ID')]
+    #[ORM\ManyToMany(targetEntity: TaskEntity::class)]
+    private Collection $task;
+
+    public function __construct()
+    {
+        $this->task = new ArrayCollection();
+    }
+
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): UserEntity
+    public function setId(?int $id): UserEntity
     {
         $this->id = $id;
         return $this;
@@ -132,6 +147,17 @@ class UserEntity
     public function setRole(?RoleEntity $role): UserEntity
     {
         $this->role = $role;
+        return $this;
+    }
+
+    public function getTask(): Collection
+    {
+        return $this->task;
+    }
+
+    public function setTask(Collection $task): UserEntity
+    {
+        $this->task = $task;
         return $this;
     }
 
